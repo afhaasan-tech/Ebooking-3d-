@@ -20,7 +20,8 @@ export interface Db extends Tx {
   kind: 'pglite' | 'postgres';
 }
 
-const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../../..');
+// EBK_ROOT lets a bundled deployment (e.g. a Vercel Function) point at its copied migrations.
+const root = () => (process.env.EBK_ROOT ? resolve(process.env.EBK_ROOT) : resolve(dirname(fileURLToPath(import.meta.url)), '../../..'));
 
 function wrap(q: (sql: string, params?: unknown[]) => Promise<{ rows: any[] }>): Tx {
   return {
@@ -102,8 +103,8 @@ export async function createPostgresDb(url: string): Promise<Db> {
 export async function migrate(db: Db): Promise<string[]> {
   await db.exec(`create schema if not exists local_meta; create table if not exists local_meta.migrations (name text primary key, applied_at timestamptz default now());`);
   const files: string[] = [];
-  if (db.kind === 'pglite') files.push(join(ROOT, 'supabase/local/0000_local_auth_shim.sql'));
-  const migDir = join(ROOT, 'supabase/migrations');
+  if (db.kind === 'pglite') files.push(join(root(), 'supabase/local/0000_local_auth_shim.sql'));
+  const migDir = join(root(), 'supabase/migrations');
   files.push(...readdirSync(migDir).filter((f) => f.endsWith('.sql')).sort().map((f) => join(migDir, f)));
   const applied: string[] = [];
   for (const f of files) {
