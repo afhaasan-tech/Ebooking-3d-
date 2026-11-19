@@ -113,3 +113,9 @@ Open items before production: privacy notice (AR/EN), consent records for market
 - **Verification:** `apps/api/src/config.test.ts` (empty-key token and `alg: none` token → 401); live server re-probed → **401**.
 - **Exposure:** local development only; nothing was deployed; demo data only.
 - **Follow-up:** add secret-strength checks to CI and a startup self-test.
+
+### SEC-003 — Demo accounts could be seeded into a real database — **FIXED 19 Nov 2026 (pre-deployment)**
+- **Risk:** `server.ts` seeded demo data (incl. a platform-admin account with the public README password) whenever the schema was first created — also on an external/hosted database. A public deployment would have exposed an admin login.
+- **Fix:** auto-seed only for the embedded local DB outside production; `SEED_DEMO_DATA=true` required for any other DB and **refused in production**; production also refuses `AUTH_MODE=local` (demo auth) unless `ALLOW_DEMO_AUTH=true` is set deliberately for a private demo.
+- **Verification:** production config probes — local auth refused, empty JWT secret refused, strong Supabase-mode secrets accepted; local API restarted healthy; vitest 103/103.
+- **Exposure:** none (nothing deployed).

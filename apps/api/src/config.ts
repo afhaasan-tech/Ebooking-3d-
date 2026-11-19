@@ -20,6 +20,10 @@ export function resolveSecret(name: string, value: string | undefined, productio
 }
 const secret = (name: string) => resolveSecret(name, env[name], isProd);
 const authMode = (env.AUTH_MODE?.trim() || 'local') as 'local' | 'supabase';
+// Local auth is a demo/simulation (not Supabase Auth). Never run it in production by accident.
+if (isProd && authMode === 'local' && env.ALLOW_DEMO_AUTH !== 'true') {
+  throw new Error('AUTH_MODE=local is a demo authentication mode; set AUTH_MODE=supabase for production (or ALLOW_DEMO_AUTH=true for a private demo deployment)');
+}
 
 export const config = {
   isProd,

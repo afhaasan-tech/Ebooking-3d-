@@ -8,11 +8,20 @@ import { buildApp } from './app';
 const dataDir = config.pgliteDataDir ? resolve(config.pgliteDataDir) : '';
 const fresh = !config.databaseUrl && (!dataDir || !existsSync(resolve(dataDir, 'PG_VERSION')));
 
+// Demo accounts share a PUBLIC test password (README). Seed them automatically only for the embedded
+// local database outside production; any other database requires SEED_DEMO_DATA=true, and production never seeds.
+const explicitSeed = process.env.SEED_DEMO_DATA === 'true';
+if (config.isProd && explicitSeed) throw new Error('Refusing SEED_DEMO_DATA in production: demo accounts use a public password');
+const mayAutoSeed = !config.isProd && !config.databaseUrl;
+
 const db = await createDb({ databaseUrl: config.databaseUrl, dataDir });
 const applied = await migrate(db);
-if (fresh || applied.includes('0001_core_schema.sql')) {
+const schemaJustCreated = fresh || applied.includes('0001_core_schema.sql');
+if (schemaJustCreated && (mayAutoSeed || explicitSeed)) {
   console.log('[ebooking] seeding fictional demo data…');
   await seed(db);
+} else if (schemaJustCreated) {
+  console.log('[ebooking] schema created WITHOUT demo data (set SEED_DEMO_DATA=true on a non-production database to add it).');
 }
 
 const { app, ctx } = await buildApp(db, { logger: true });
