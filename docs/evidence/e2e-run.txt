@@ -1,0 +1,23 @@
+
+Running 18 tests using 1 worker
+
+  ok  1 [desktop] › tests\e2e\booking.spec.ts:5:3 › customer journey (desktop) › home → event → 3D venue → seat view → smart pick → compare → basket → checkout → tickets (1.1m)
+  ok  2 [desktop] › tests\e2e\booking.spec.ts:114:3 › customer journey (desktop) › language switch to English flips direction to LTR (4.5s)
+  ok  3 [desktop] › tests\e2e\booking.spec.ts:123:3 › customer journey (desktop) › sold seats cannot be selected (4.3s)
+  ok  4 [desktop] › tests\e2e\booking.spec.ts:133:3 › customer journey (desktop) › 2D fallback renders automatically when WebGL is unavailable (3.1s)
+  ok  5 [desktop] › tests\e2e\booking.spec.ts:149:3 › customer journey (desktop) › payment failure shows a safe retry path (20.9s)
+  ok  6 [desktop] › tests\e2e\extras.spec.ts:13:1 › exhibition: simulated notice, booth request, organizer approval → booked (29.5s)
+  ok  7 [desktop] › tests\e2e\extras.spec.ts:47:1 › quick event: form submit with validation; customer accepts an admin quote (17.1s)
+  ok  8 [desktop] › tests\e2e\extras.spec.ts:79:1 › support assistant works with AI disabled and explains a verified order (8.3s)
+  ok  9 [desktop] › tests\e2e\extras.spec.ts:89:1 › my bookings tabs render for a signed-in customer (5.8s)
+  ok 10 [desktop] › tests\e2e\portals.spec.ts:31:3 › organizer portal (real API) › owner: dashboard, bookings and check-in of a real signed ticket (14.4s)
+  ok 11 [desktop] › tests\e2e\portals.spec.ts:57:3 › organizer portal (real API) › staff: only events and check-in; financial tabs are not offered (6.7s)
+  ok 12 [desktop] › tests\e2e\portals.spec.ts:67:3 › organizer portal (real API) › another organizer never sees Gulf Stage bookings (5.7s)
+  ok 13 [desktop] › tests\e2e\portals.spec.ts:77:3 › platform admin (real API) › quick event: review → custom quote sent with an exact fils total (13.3s)
+  ok 14 [desktop] › tests\e2e\portals.spec.ts:107:3 › platform admin (real API) › non-admins are refused (4.7s)
+  ok 15 [mobile] › tests\e2e\responsive.spec.ts:5:1 › mobile: home, menu, booking page and 2D/3D toggle fit the screen (24.3s)
+  ok 16 [mobile] › tests\e2e\responsive.spec.ts:36:1 › tablet: event discovery and checkout layout (12.5s)
+  ok 17 [mobile] › tests\e2e\responsive.spec.ts:46:1 › keyboard: skip link and focusable controls (5.2s)
+  ok 18 [mobile] › tests\e2e\responsive.spec.ts:55:1 › small phone (375 px): header and key pages have no horizontal overflow (15.7s)
+
+  18 passed (4.6m)
